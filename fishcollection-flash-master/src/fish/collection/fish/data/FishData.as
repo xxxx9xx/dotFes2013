@@ -8,7 +8,7 @@ package fish.collection.fish.data
 	{
 		public var code:String;
 		public var name:String;
-		public var part:Object;
+		public var type:String;
 		
 		public function FishData(data:Object = null)
 		{
@@ -17,8 +17,8 @@ package fish.collection.fish.data
 				code = data.code;
 			if (data.name) 
 				name = data.name;
-			if (data.part) 
-				part = data.part;
+			if (data.type) 
+				type = data.type;
 		}
 	}
 }

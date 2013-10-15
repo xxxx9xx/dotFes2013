@@ -5,6 +5,7 @@ package
 	import flash.display.StageDisplayState;
 	
 	import fish.collection.entry.mock.MockEntryDelegate;
+	import fish.collection.fish.mock.MockFishDelegate;
 
 	[SWF(width="900",height="700",frameRate="24",backgroundColor="#999999")]
 	public class mock_fishcollection extends fishcollection
@@ -26,7 +27,10 @@ package
 		
 		override protected function initApp():void
 		{
-			container.register(MockEntryDelegate);
+			// 各モジュールのモックを一旦ここで出し分け
+			//container.register(MockEntryDelegate);
+			// 金魚の見た目確認
+			container.register(MockFishDelegate);
 			super.initApp();
 		}
 	}

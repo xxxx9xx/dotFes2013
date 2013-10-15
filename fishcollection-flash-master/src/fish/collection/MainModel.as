@@ -1,6 +1,7 @@
 package fish.collection
 {
 	import fish.collection.entry.EntryModel;
+	import fish.collection.game.GameModel;
 	import fish.collection.net.FishClient;
 	import fish.collection.top.TopModel;
 	
@@ -18,23 +19,24 @@ package fish.collection
 		private var _container:ViewContainer;
 		private var _topModel:TopModel;
 		private var _entryModel:EntryModel;
+		private var _gameModel:GameModel;
 		
 		//=========================================================
 		// GETTER/SETTER
 		//=========================================================
-		public function set client(client:FishClient):void
+		public function set client(value:FishClient):void
 		{
-			_client = client;
+			_client = value;
 		}
 		
-		public function set delegate(delegate:MainDelegate):void
+		public function set delegate(value:MainDelegate):void
 		{
-			_delegate = delegate;
+			_delegate = value;
 		}
 		
-		public function set facade(facade:MainFacade):void
+		public function set facade(value:MainFacade):void
 		{
-			_facade = facade;
+			_facade = value;
 		}
 		
 		public function set container(value:ViewContainer):void
@@ -57,6 +59,9 @@ package fish.collection
 			showTop();
 		}
 		
+		/**
+		 * トップを表示 
+		 */
 		public function showTop():void
 		{
 			if (!_topModel)
@@ -72,6 +77,9 @@ package fish.collection
 			
 		}
 		
+		/**
+		 * エントリーを表示 
+		 */
 		public function showEntry():void
 		{
 			request();
@@ -86,6 +94,19 @@ package fish.collection
 		public function cleanEntry():void
 		{
 			
+		}
+		
+		/**
+		 * ゲームモジュールを表示
+		 */
+		public function showGame():void
+		{
+			if (!_gameModel)
+			{
+				_gameModel = new GameModel();
+				_gameModel.initialize(_delegate, _container);
+			}
+			_gameModel.showGame();
 		}
 		
 		public function request():void

@@ -4,7 +4,6 @@ package fish.collection.top
 	import fish.collection.fish.FishView;
 	import fish.collection.fish.data.FishData;
 	
-	import pigglife.data.common.AvatarData;
 	import pigglife.view.ViewContainer;
 
 	/**
@@ -38,31 +37,6 @@ package fish.collection.top
 			_topView = new TopView(_idelegate);
 			_topView.initialize();
 			_container.addUI(_topView.view);
-			
-			var fishView:FishView = new FishView();
-			fishView.initialize(createFishData());
-			fishView.show();
-			fishView.view.x = 100;
-			fishView.view.y = 100;
-			_container.addUI(fishView.view);
-		}
-		
-		private function createFishData():FishData
-		{
-			var obj:Object ={
-				code:"fish1", 
-				name:"わたしだ", 
-				part:{
-					head:{x:0, y:1},
-					body:{x:0, y:1},
-					r_hand:{x:0, y:1},
-					l_hand:{x:0, y:1},
-					tail:{x:0, y:1}
-				}
-			};
-			var data:FishData = new FishData(obj);
-			
-			return data;
 		}
 		
 		public function showTop():void

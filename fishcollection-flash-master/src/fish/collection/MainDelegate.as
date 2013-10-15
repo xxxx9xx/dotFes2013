@@ -11,14 +11,14 @@ package fish.collection
 		//=========================================================
 		// GETTER/SETTER
 		//=========================================================
-		public function set model(model:MainModel):void
+		public function set model(value:MainModel):void
 		{
-			_model = model;
+			_model = value;
 		}
 		
-		public function set mainFacade(mainFacade:MainFacade):void
+		public function set mainFacade(value:MainFacade):void
 		{
-			_mainFacade = mainFacade;
+			_mainFacade = value;
 		}
 		
 		//===========================================================
@@ -28,9 +28,20 @@ package fish.collection
 		{
 		}
 		
+		/**
+		 * エントリーを表示 
+		 */
 		public function showEntry():void
 		{
 			_model.showEntry();
+		}
+		
+		/**
+		 * ゲームビューを表示
+		 */
+		public function showGame():void
+		{
+			_model.showGame();
 		}
 	}
 }

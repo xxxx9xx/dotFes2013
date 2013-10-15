@@ -7,7 +7,7 @@ package fish.collection.fish
 	import fish.collection.fish.configuration.BodyConfiguration;
 	
 	/**
-	 * 金魚の骨組みを生成
+	 * 金魚のタイプごとに骨組みを生成
 	 * @author bamba misaki
 	 */
 	public class BaseFishView extends Sprite
@@ -15,38 +15,49 @@ package fish.collection.fish
 		//=========================================================
 		// VARIABLES
 		//=========================================================
-		private var _baseHead:Head;
-		private var _baseBody:Body;
-		private var _baseRHand:RHand;
-		private var _baseLHand:LHand;
-		private var _baseTail:Tail;
-		
+		private var _fishType:String;
+		private var _baseFish:MovieClip;
+
 		//=========================================================
 		// GETTER/SETTER
 		//=========================================================
-		public function get head():MovieClip {return _baseHead;}
-		public function get body():MovieClip {return _baseBody;}
-		public function get rHand():MovieClip {return _baseRHand;}
-		public function get lHand():MovieClip {return _baseLHand;}
-		public function get tail():MovieClip {return _baseTail;}
+		public function set type(value:String):void
+		{
+			_fishType = value;
+		}
+		
+		//public function get head():MovieClip {return _baseFish.head_whole;}
+		public function get body():MovieClip {return _baseFish.body_whole;}
+		//public function get rFin():MovieClip {return _baseFish.rFin_whole;}
+		//public function get lFin():MovieClip {return _baseFish.lFin_whole;}
+		public function get tail():MovieClip {return _baseFish.tail_whole;}
 		
 		//===========================================================
 		// PUBLIC METHODS
 		//===========================================================
 		public function BaseFishView()
 		{
-			// 各パーツの下地 
-			_baseHead = new Head();
-			_baseBody = new Body();
-			_baseRHand = new RHand();
-			_baseLHand = new LHand();
-			_baseTail = new Tail();
+		}
+		
+		/**
+		 * 初期化 
+		 */
+		public function initialize():void
+		{
+			switch(_fishType)
+			{
+				case "deme":
+					_baseFish =  new Deme();
+					break;
+				default:
+					break;
+			}
 			
-			getPos(_baseHead, BodyConfiguration.HEAD);
-			getPos(_baseBody, BodyConfiguration.BODY);
-			getPos(_baseRHand, BodyConfiguration.R_HAND);
-			getPos(_baseLHand, BodyConfiguration.L_HAND);
-			getPos(_baseTail, BodyConfiguration.TAIL);
+//			getPos(_baseFish.head_whole, BodyConfiguration.HEAD);
+			getPos(_baseFish.body_whole, BodyConfiguration.BODY);
+//			getPos(_baseFish.rFin_whole, BodyConfiguration.R_FIN);
+//			getPos(_baseFish.lFin_whole, BodyConfiguration.L_FIN);
+			getPos(_baseFish.tail_whole, BodyConfiguration.TAIL);	
 		}
 		
 		/**
@@ -54,11 +65,8 @@ package fish.collection.fish
 		 */
 		public function clean():void
 		{
-			_baseHead = null;
-			_baseBody = null;
-			_baseRHand = null;
-			_baseLHand = null;
-			_baseTail = null;
+			_fishType = null;
+			_baseFish = null;
 		}
 		
 		//===========================================================

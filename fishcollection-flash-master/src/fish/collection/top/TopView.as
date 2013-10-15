@@ -58,7 +58,10 @@ package fish.collection.top
 		{
 			removeAllChild(this);
 			if (_container)
+			{
 				removeAllChild(_container);
+				removeFromParent(_container);
+			}
 			_container = null;
 			if (_buttonHelper)
 				_buttonHelper.clean();

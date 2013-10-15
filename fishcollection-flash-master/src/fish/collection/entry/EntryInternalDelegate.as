@@ -22,5 +22,10 @@ package fish.collection.entry
 			_model = model;
 			_delegate = delegate;
 		}
+		// とりあえずゲーム画面に行く
+		public function showGame():void
+		{
+			_delegate.showGame();
+		}
 	}
 }

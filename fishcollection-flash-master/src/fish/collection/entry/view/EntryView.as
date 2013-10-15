@@ -1,9 +1,11 @@
 package fish.collection.entry.view
 {
-	import fish.collection.entry.EntryInternalDelegate;
-	
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	
+	import fish.collection.entry.EntryInternalDelegate;
+	
+	import pigglife.util.ButtonHelper;
 	
 	/**
 	 * 
@@ -16,6 +18,7 @@ package fish.collection.entry.view
 		//=========================================================
 		private var _idelegate:EntryInternalDelegate;
 		private var _container:Sprite;
+		private var _buttonHelper:ButtonHelper;
 		
 		//=========================================================
 		// GETTER/SETTER
@@ -37,6 +40,13 @@ package fish.collection.entry.view
 		{
 			_container = new Sprite();
 			addChild(_container);
+			
+			// ロゴ
+			var logo:Bitmap = new Bitmap(new Logo);
+			logo.x = 24; logo.y = 32;
+			_container.addChild(logo);
+			
+			_buttonHelper = new ButtonHelper(_container).click(onClick);
 		}
 
 		public function show():void
@@ -45,6 +55,30 @@ package fish.collection.entry.view
 			var logo:Bitmap = new Bitmap(new Logo);
 			logo.x = 24; logo.y = 32;
 			_container.addChild(logo);
+		}
+		
+		/**
+		 * clean 
+		 */
+		public function clean():void
+		{
+			removeAllChild(this);
+			if (_container)
+			{
+				removeAllChild(_container);
+				removeFromParent(_container);
+			}
+			_container = null;
+			if (_buttonHelper)
+				_buttonHelper.clean();
+			_buttonHelper = null;
+		}
+		
+		// とりあえずロゴクリックでゲーム画面に行く
+		private function onClick():void
+		{
+			clean();
+			_idelegate.showGame();			
 		}
 	}
 }

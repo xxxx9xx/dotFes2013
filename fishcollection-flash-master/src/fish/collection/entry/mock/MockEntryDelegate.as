@@ -9,6 +9,10 @@ package fish.collection.entry.mock
 	import pigglife.view.ViewContainer;
 	import pigglife.view.button.PiggButton;
 
+	/**
+	 * エントリーのモック 
+	 * @author bamba misaki
+	 */
 	public class MockEntryDelegate
 	{
 		//=========================================================
@@ -18,10 +22,6 @@ package fish.collection.entry.mock
 		private var _model:EntryModel;
 		private var _delegate:MainDelegate;
 		private var _container:ViewContainer;
-		
-		public function MockEntryDelegate()
-		{
-		}
 		
 		//=========================================================
 		// GETTER/SETTER
@@ -44,6 +44,13 @@ package fish.collection.entry.mock
 		//===========================================================
 		// PUBLIC METHODS
 		//===========================================================
+		public function MockEntryDelegate()
+		{
+		}
+		
+		/**
+		 * 初期化 
+		 */
 		public function initialize():void
 		{
 			_model = new EntryModel();
@@ -52,6 +59,9 @@ package fish.collection.entry.mock
 			new PiggButton(12, FontNames.Sans).text('TEST').size(100, 30).position(0, 0).onClick(show).appendTo(RootStage.stage);
 		}
 		
+		/**
+		 * 表示 
+		 */
 		private function show():void
 		{
 			_model.showEntry();

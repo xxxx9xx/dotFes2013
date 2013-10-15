@@ -8,6 +8,7 @@ package fish.collection.fish
 	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;
 	
+	import fish.collection.fish.configuration.BodyConfiguration;
 	import fish.collection.fish.data.BodyPositionData;
 	import fish.collection.fish.data.FishData;
 
@@ -22,13 +23,12 @@ package fish.collection.fish
 		//=========================================================
 		private var _container:Sprite;
 		private var _data:FishData;
-		private var _partData:Object;
 		private var _positionData:BodyPositionData;
-		private var _baceFish:BaseFishView;
+		private var _baseFish:BaseFishView;
 		private var _head:Sprite;
 		private var _body:Sprite;
-		private var _rHand:Sprite;
-		private var _lHand:Sprite;
+		private var _rFin:Sprite;
+		private var _lFin:Sprite;
 		private var _tail:Sprite;
 		
 		//=========================================================
@@ -50,27 +50,28 @@ package fish.collection.fish
 		{
 			// データ
 			_data = data;
-			_partData = _data.part;
 			
 			_container = new Sprite();
 			addChild(_container);
 
 			// 金魚の骨組み
-			_baceFish = new BaseFishView();
+			_baseFish = new BaseFishView();
+			_baseFish.type = _data.type;
+			_baseFish.initialize();
 			
 			// 各パーツ
 			_head = new Sprite();
 			_body = new Sprite();
-			_rHand = new Sprite();
-			_lHand = new Sprite();
+			_rFin = new Sprite();
+			_lFin = new Sprite();
 			_tail = new Sprite();
 			
 			// 各パーツのコピーを生成
-			copyShapes(_head, _baceFish.head, true, true); 
-			copyShapes(_body, _baceFish.body, true, true); 
-			copyShapes(_rHand, _baceFish.rHand, true, true); 
-			copyShapes(_lHand, _baceFish.lHand, true, true); 
-			copyShapes(_tail, _baceFish.tail, true, true);
+			//copyShapes(_head, _baseFish.head, true, true); 
+			copyShapes(_body, _baseFish.body, true, true); 
+			//copyShapes(_rFin, _baseFish.rFin, true, true); 
+			//copyShapes(_lFin, _baseFish.lFin, true, true); 
+			copyShapes(_tail, _baseFish.tail, true, true);
 		}
 		
 		/**
@@ -84,15 +85,16 @@ package fish.collection.fish
 			// 各パーツ表示
 			showPart(_head);
 			showPart(_body);
-			showPart(_rHand);
-			showPart(_lHand);
+			showPart(_rFin);
+			showPart(_lFin);
 			showPart(_tail);
 
-			_head.addChild(addParts(_data.code, 'head'));
-			_body.addChild(addParts(_data.code, 'body'));
-			_rHand.addChild(addParts(_data.code, 'rHand'));
-			_lHand.addChild(addParts(_data.code, 'lHand'));
-			_tail.addChild(addParts(_data.code, 'tail'));
+			// MCを各パーツにアタッチ
+			_head.addChild(addParts(_data.type, BodyConfiguration.HEAD));
+			_body.addChild(addParts(_data.type, BodyConfiguration.BODY));
+			_rFin.addChild(addParts(_data.type, BodyConfiguration.R_FIN));
+			_lFin.addChild(addParts(_data.type, BodyConfiguration.L_FIN));
+			_tail.addChild(addParts(_data.type, BodyConfiguration.TAIL));
 		}
 		
 		/**
@@ -104,13 +106,13 @@ package fish.collection.fish
 			if (_container)
 				removeAllChild(_container);
 			_container = null;
-			if (_baceFish)
-				_baceFish.clean();
-			_baceFish = null;
+			if (_baseFish)
+				_baseFish.clean();
+			_baseFish = null;
 			_head = null;
 			_body = null;
-			_rHand = null;
-			_lHand = null;
+			_rFin = null;
+			_lFin = null;
 			_tail = null;
 		}
 		
@@ -184,15 +186,21 @@ package fish.collection.fish
 			}
 		}
 		
-		private function addParts(code:String, part:String):MovieClip
+		/**
+		 * MCを各パーツにアタッチ 
+		 * @param code
+		 * @param part
+		 * @return 
+		 */
+		private function addParts(type:String, part:String):MovieClip
 		{
-			fish1_head;
-			fish1_body;
-			fish1_rHand;
-			fish1_lHand;
-			fish1_tail;
+			deme_body_1;
+			deme_head_1;
+			deme_rFin_1;
+			deme_lFin_1;
+			deme_tail_1;
 			
-			var mcName:String = code + "_" + part;
+			var mcName:String = type + "_" + part + "_" + "1";
 			var myClass:Class = Class(getDefinitionByName(mcName));
 			var mc:MovieClip = new myClass(); 
 //			mc.x = _partData.part.x;

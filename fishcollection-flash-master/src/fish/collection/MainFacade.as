@@ -11,16 +11,32 @@ package fish.collection
 	public class MainFacade
 	{
 		//=========================================================
-		// PROPERTIES
+		// VARIABLES
 		//=========================================================
 		private var _client:FishClient;
 		private var _config:Configuration;
 		private var _model:MainModel;
 		
-		public function set client(value:FishClient):void { _client = value; }
-		public function set config(value:Configuration):void { _config = value; }
-		public function set model(value:MainModel):void { _model = value; }
+		//=========================================================
+		// GETTER/SETTER
+		//=========================================================
+		public function set client(value:FishClient):void 
+		{
+			_client = value; 
+		}
 		
+		public function set config(value:Configuration):void 
+		{
+			_config = value; 
+		}
+		public function set model(value:MainModel):void 
+		{ 
+			_model = value; 
+		}
+		
+		//===========================================================
+		// PUBLIC METHODS
+		//===========================================================
 		public function MainFacade()
 		{
 		}
@@ -34,6 +50,9 @@ package fish.collection
 			//_client.send('test', {}, new Callback(onGet).onError(errorLogin));
 		}
 		
+		//===========================================================
+		// PRIVATE METHODS
+		//===========================================================
 		private function onGet(data:Object):void
 		{
 			log(data);
