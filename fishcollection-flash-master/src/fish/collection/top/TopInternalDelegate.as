@@ -28,6 +28,11 @@ package fish.collection.top
 			_model.clean();
 		}
 		
+		public function request():void
+		{
+			_delegate.request();
+		}
+		
 		public function showEntry():void
 		{
 			_delegate.showEntry();

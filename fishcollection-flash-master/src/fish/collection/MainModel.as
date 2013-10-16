@@ -82,7 +82,6 @@ package fish.collection
 		 */
 		public function showEntry():void
 		{
-			request();
 			if (!_entryModel)
 			{
 				_entryModel = new EntryModel();
@@ -113,26 +112,26 @@ package fish.collection
 		{
 			_facade.request();
 		}
-//		
-//		/**
-//		 * スタート 
-//		 */
-//		public function start():void
-//		{
-//			openClient();
-//		}
-//		
-//		/**
-//		 *　ソケットサーバーを開く 
-//		 */
-//		public function openClient():void
-//		{
-//			_client.open(_config.serverUrl, _config.serverOrigin);
-//		}
-//		
-//		public function showError(error:Error, block:Boolean = false):void
-//		{
-//			log(error);
-//		}
+		
+		/**
+		 * スタート 
+		 */
+		public function start():void
+		{
+			openClient();
+		}
+		
+		/**
+		 *　ソケットサーバーを開く 
+		 */
+		public function openClient():void
+		{
+			//_client.open('ws://172.22.245.248:8888', '*');
+		}
+		
+		public function showError(error:Error, block:Boolean = false):void
+		{
+			log(error);
+		}
 	}
 }

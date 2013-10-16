@@ -16,11 +16,16 @@
 
 package fish.collection.net
 {
-	public final class WebSocketState
+	import flash.events.ErrorEvent;
+	
+	public class WebSocketErrorEvent extends ErrorEvent
 	{
-		public static const CONNECTING:int = 0;
-		public static const OPEN:int = 1;
-		public static const CLOSED:int = 2;
-		public static const INIT:int = 3;
+		public static const CONNECTION_FAIL:String = "connectionFail";
+		public static const ABNORMAL_CLOSE:String = "abnormalClose";
+		
+		public function WebSocketErrorEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false, text:String="")
+		{
+			super(type, bubbles, cancelable, text);
+		}
 	}
 }

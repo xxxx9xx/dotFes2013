@@ -49,7 +49,7 @@ package
 		{
 			log('open');
 			_websocket = new FishClientWebSocket(this);
-			_websocket.open('ws://192.168.1.100:8888', '*');
+			_websocket.open();
 		}
 		
 		/**
@@ -67,14 +67,13 @@ package
 		private function handleStageClick(e:MouseEvent):void
 		{
 			log(e);
-			
 			var data:Object = {
 				x: e.stageX,
 					y: e.stageY
 			};
 			
 			var str:String = JSON.stringify(data);
-			_websocket.send(str);
+			//_websocket.send('test');
 		}
 		
 		private function _log(... messages):void

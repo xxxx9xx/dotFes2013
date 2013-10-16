@@ -28,6 +28,11 @@ package fish.collection
 		{
 		}
 		
+		public function request():void
+		{
+			_model.request();
+		}
+		
 		/**
 		 * エントリーを表示 
 		 */

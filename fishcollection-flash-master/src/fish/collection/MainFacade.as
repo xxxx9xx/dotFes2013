@@ -29,9 +29,15 @@ package fish.collection
 		{
 			_config = value; 
 		}
+		
 		public function set model(value:MainModel):void 
 		{ 
 			_model = value; 
+		}
+		
+		public function get name():String
+		{
+			return 'fish';
 		}
 		
 		//===========================================================
@@ -47,7 +53,7 @@ package fish.collection
 		public function request():void
 		{
 			log();
-			//_client.send('test', {}, new Callback(onGet).onError(errorLogin));
+			_client.send({id : "test"}, new Callback(onGet).onError(errorLogin));
 		}
 		
 		//===========================================================

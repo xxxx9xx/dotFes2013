@@ -1,6 +1,8 @@
 package fish.collection.net
 {
+	import flash.events.TimerEvent;
 	import flash.utils.ByteArray;
+	import flash.utils.Timer;
 	import flash.utils.describeType;
 	
 	import fish.collection.MainModel;
@@ -19,8 +21,8 @@ package fish.collection.net
 		private var _model:MainModel;
 		// WebSocket
 		private var _websocket:FishClientWebSocket;
-		// Server URL List
-		private var _url:Array;
+		// Server URL
+		private var _url:String;
 		// Origin URL
 		private var _origin:String;
 		// Trying Count
@@ -33,12 +35,16 @@ package fish.collection.net
 		private var _methods:Object;
 		// コールバック一覧
 		private var _callbacks:Object;
+		// ハートビートタイマー
+		private var _heartbeatTimer:Timer;
 		
 		public function FishClient()
 		{
 			_methods = {};
 			_methods['error'] = _onError;
 			_callbacks = {};
+			_heartbeatTimer = new Timer(10000);
+			_heartbeatTimer.addEventListener(TimerEvent.TIMER, sendHeartbeat);
 		}
 		
 		public function set model(model:MainModel):void
@@ -56,7 +62,7 @@ package fish.collection.net
 		 * @param host 接続先URL
 		 * @param port 接続先ポート名
 		 */
-		public function open(url:Array, origin:String):void
+		public function open(url:String, origin:String):void
 		{
 			_url = url;
 			_origin = origin;
@@ -82,7 +88,7 @@ package fish.collection.net
 				return;
 			}
 			_websocket = new FishClientWebSocket(this);
-			_websocket.open('ws://192.168.1.100:8888', '*');
+			_websocket.open();
 			// 試行カウントを１増やしておく
 			_tryCount++;
 		}
@@ -102,7 +108,7 @@ package fish.collection.net
 		/**
 		 * サーバーメソッドのコールを送信します
 		 */
-		public function send(method:String, data:Object, callback:Callback = null):void
+		public function send(data:Object, callback:Callback = null):void
 		{
 			// WebSocketがオープンしていない場合は無視
 			if (!_websocket.isOpen)
@@ -118,8 +124,8 @@ package fish.collection.net
 				addCallback(callback);
 			}
 			var json:String = JSON.stringify(data);
-			log(method, json);
-			_websocket.send(method + ':' + json);
+			log(json);
+		//	_websocket.send(json);
 		}
 		
 		/**
@@ -159,7 +165,9 @@ package fish.collection.net
 			// 試行カウントをリセット
 			_tryCount = 0;
 			// 接続オープン後、ログイン開始
-			_model.request();
+			//_model.request();
+			_heartbeatTimer.start();
+			sendHeartbeat(null);
 		}
 		
 		/**
@@ -168,6 +176,8 @@ package fish.collection.net
 		public function onClose():void
 		{
 			log('close');
+			// ハートビートタイマー停止
+			_heartbeatTimer.stop();
 		}
 		
 		/**
@@ -256,15 +266,15 @@ package fish.collection.net
 		public function onSocketError(e:Error):void
 		{
 			log(e.message);
-			if (_websocket.isOpening || _websocket.isWaiting) {
-				// 接続中の場合は、次のURL接続を試みる
-				openNext();
-			} else {
-				//_model.showErrorTemporary(e.message);
-				e.name = 'error.soketError';
-				e.message = Messages.of('error.soketError');
-				showError(e);
-			}
+//			if (_websocket.isOpening || _websocket.isWaiting) {
+//				// 接続中の場合は、次のURL接続を試みる
+//				openNext();
+//			} else {
+//				//_model.showErrorTemporary(e.message);
+//				e.name = 'error.soketError';
+//				e.message = Messages.of('error.soketError');
+//				showError(e);
+//			}
 		}
 		
 		/**
@@ -306,6 +316,29 @@ package fish.collection.net
 		{
 			delete _callbacks[callback.id];
 			callback.clean();
+		}
+		
+		/**
+		 * ハートビートを送信します
+		 */
+		private function sendHeartbeat(e:TimerEvent = null):void
+		{
+			if (_websocket.isOpen)
+			{
+				try
+				{
+					//_model.requestHeartbeat();
+				}
+				catch (e:Error)
+				{
+					// 送信に失敗した場合は、接続が切断されているのでハートビートを停止
+					_heartbeatTimer.stop();
+				}
+			}
+			else
+			{
+				_heartbeatTimer.stop();
+			}
 		}
 	}
 }

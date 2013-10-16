@@ -72,6 +72,7 @@ package fish.collection.top
 		{
 			clean();
 			_idelegate.showEntry();			
+			_idelegate.request();			
 		}
 	}
 }

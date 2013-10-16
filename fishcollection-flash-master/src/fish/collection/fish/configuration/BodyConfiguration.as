@@ -28,6 +28,8 @@ package fish.collection.fish.configuration
 			"lFin": new Point(0, 0),
 			"tail"	: new Point(0, 50)
 		}
+			
+			
 		
 		// ボディ部のアタッチパーツ名一覧
 		public static const BODY_ATTACH_PARTS:Object = {

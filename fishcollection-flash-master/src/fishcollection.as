@@ -1,16 +1,16 @@
 package
 {
-	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageQuality;
-	import flash.events.MouseEvent;
-	import flash.system.ApplicationDomain;
-	
 	import fish.collection.MainDelegate;
 	import fish.collection.MainFacade;
 	import fish.collection.MainModel;
 	import fish.collection.net.FishClient;
 	import fish.collection.net.SimpleSocketClient;
+	
+	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageQuality;
+	import flash.events.MouseEvent;
+	import flash.system.ApplicationDomain;
 	
 	import pigglife.ObjectContainer;
 	import pigglife.util.Tween;
@@ -40,12 +40,12 @@ package
 			
 			container = new ObjectContainer(ApplicationDomain.currentDomain);
 			
-			container.register(SimpleSocketClient);
-			container.register(FishClient);
-			
 			container.register(MainModel);
 			container.register(MainDelegate);
 			container.register(MainFacade);
+			
+			container.register(SimpleSocketClient);
+			container.register(FishClient);
 			
 			container.register(ViewContainer,  new SimpleViewContainer(this));
 			
@@ -59,7 +59,7 @@ package
 		{
 			container.initialize();
 		}
-		
+			
 		private function enableDragg():void
 		{
 			RootStage.stage.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);

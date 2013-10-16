@@ -45,7 +45,7 @@ package fish.collection.net
 		{
 			log("再接続開始");
 			_connectWaiting = false;
-			_websocket.open('ws://192.168.1.100:8888', '*');
+			_websocket.open();
 		}
 		
 		//===========================================================
@@ -62,6 +62,9 @@ package fish.collection.net
 		public function onClose():void
 		{
 			log();
+
+
+
 			_model.destroy();
 			reconnection();
 		}
