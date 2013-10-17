@@ -59,6 +59,11 @@ package fish.collection
 			showTop();
 		}
 		
+		public function start():void
+		{
+			_client.open();
+		}
+		
 		/**
 		 * トップを表示 
 		 */
@@ -111,22 +116,6 @@ package fish.collection
 		public function request():void
 		{
 			_facade.request();
-		}
-		
-		/**
-		 * スタート 
-		 */
-		public function start():void
-		{
-			openClient();
-		}
-		
-		/**
-		 *　ソケットサーバーを開く 
-		 */
-		public function openClient():void
-		{
-			//_client.open('ws://172.22.245.248:8888', '*');
 		}
 		
 		public function showError(error:Error, block:Boolean = false):void

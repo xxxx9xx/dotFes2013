@@ -138,10 +138,10 @@ package fish.collection.net
 		//			return _websocket != null && _websocket.isWaiting;
 		//		}
 		//		
-		//		public function send(message:String):void
-		//		{
-		//			_websocket.send(message);
-		//		}
+		public function send(message:String):void
+		{
+			_websocket.sendUTF(message);
+		}
 		
 		public function close():void
 		{

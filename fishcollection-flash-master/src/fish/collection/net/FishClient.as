@@ -22,9 +22,9 @@ package fish.collection.net
 		// WebSocket
 		private var _websocket:FishClientWebSocket;
 		// Server URL
-		private var _url:String;
+		//private var _url:String;
 		// Origin URL
-		private var _origin:String;
+		//rivate var _origin:String;
 		// Trying Count
 		private var _tryCount:int;
 		
@@ -62,31 +62,29 @@ package fish.collection.net
 		 * @param host 接続先URL
 		 * @param port 接続先ポート名
 		 */
-		public function open(url:String, origin:String):void
+		public function open():void
 		{
-			_url = url;
-			_origin = origin;
 			_tryCount = 0;
-			log("opening connection to", url);
+			log("opening connection to");
 			openNext();
 		}
 		
 		private function openNext():void
 		{
 			log();
-			if (_websocket != null)
-			{
-				// 既に存在する接続はとじておく
-				_websocket.close();
-			}
-			if (_tryCount >= _url.length) {
-				// 接続失敗とする
-				var error:Error = new Error();
-				error.name = 'error.disconnected';
-				error.message = Messages.of('error.disconnected')
-				showError(error)
-				return;
-			}
+//			if (_websocket != null)
+//			{
+//				// 既に存在する接続はとじておく
+//				_websocket.close();
+//			}
+//			if (_tryCount >= _url.length) {
+//				// 接続失敗とする
+//				var error:Error = new Error();
+//				error.name = 'error.disconnected';
+//				error.message = Messages.of('error.disconnected')
+//				showError(error)
+//				return;
+//			}
 			_websocket = new FishClientWebSocket(this);
 			_websocket.open();
 			// 試行カウントを１増やしておく
@@ -108,24 +106,26 @@ package fish.collection.net
 		/**
 		 * サーバーメソッドのコールを送信します
 		 */
-		public function send(data:Object, callback:Callback = null):void
+		public function send(data:Object):void
 		{
 			// WebSocketがオープンしていない場合は無視
-			if (!_websocket.isOpen)
-			{
-				onSocketError(new Error(Messages.of('error.disconnected')));
-				return;
-			}
-			
-			if (callback != null)
-			{
-				// リクエストIDとしてコールバックIDを付与
-				data._req = callback.id;
-				addCallback(callback);
-			}
+//			if (!_websocket.isOpen)
+//			{
+//				onSocketError(new Error(Messages.of('error.disconnected')));
+//				return;
+//			}
+//			
+//			if (callback != null)
+//			{
+//				// リクエストIDとしてコールバックIDを付与
+//				data._req = callback.id;
+//				addCallback(callback);
+//			}
 			var json:String = JSON.stringify(data);
 			log(json);
-		//	_websocket.send(json);
+			if (!_websocket)
+				_websocket = new FishClientWebSocket(this);
+			_websocket.send(json);
 		}
 		
 		/**

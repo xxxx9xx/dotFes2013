@@ -58,6 +58,12 @@ package
 		protected function initApp():void
 		{
 			container.initialize();
+			
+			var main:* = container.getInstance('fish.collection::MainModel');
+			if (main != null)
+			{
+				main.start();
+			}
 		}
 			
 		private function enableDragg():void

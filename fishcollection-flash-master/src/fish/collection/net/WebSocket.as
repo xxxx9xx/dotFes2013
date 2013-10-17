@@ -16,6 +16,7 @@
 
 package fish.collection.net
 {
+	import com.adobe.crypto.SHA1;
 	import com.adobe.net.URI;
 	import com.adobe.net.URIEncodingBitmap;
 	import com.hurlant.crypto.tls.TLSConfig;
@@ -484,6 +485,10 @@ package fish.collection.net
 			}
 		}
 		
+		/**
+		 * データ受信 
+		 * @param frame
+		 */
 		private function processFrame(frame:WebSocketFrame):void {
 			var event:WebSocketEvent;
 			var i:int;
@@ -497,6 +502,7 @@ package fish.collection.net
 
 			switch (frame.opcode) {
 				case WebSocketOpcode.BINARY_FRAME:
+					log();
 					if (config.assembleFragments) {
 						if (frameQueue.length === 0) {
 							if (frame.fin) {
@@ -520,6 +526,7 @@ package fish.collection.net
 					}
 					break;
 				case WebSocketOpcode.TEXT_FRAME:
+					log();
 					if (config.assembleFragments) {
 						if (frameQueue.length === 0) {
 							if (frame.fin) {
@@ -543,6 +550,7 @@ package fish.collection.net
 					}
 					break;
 				case WebSocketOpcode.CONTINUATION:
+					log();
 					if (config.assembleFragments) {
 						if (fragmentationOpcode === WebSocketOpcode.CONTINUATION &&
 							frame.opcode        === WebSocketOpcode.CONTINUATION)
@@ -612,6 +620,7 @@ package fish.collection.net
 					}
 					break;
 				case WebSocketOpcode.PING:
+					log();
 					if (debug) {
 						logger("Received Ping");
 					}
@@ -622,6 +631,7 @@ package fish.collection.net
 					}
 					break;
 				case WebSocketOpcode.PONG:
+					log();
 					if (debug) {
 						logger("Received Pong");
 					}
@@ -630,6 +640,7 @@ package fish.collection.net
 					dispatchEvent(pongEvent);
 					break;
 				case WebSocketOpcode.CONNECTION_CLOSE:
+					log();
 					if (debug) {
 						logger("Received close frame");
 					}
@@ -651,6 +662,7 @@ package fish.collection.net
 					}
 					break;
 				default:
+					log();
 					if (debug) {
 						logger("Unrecognized Opcode: 0x" + frame.opcode.toString(16));
 					}
@@ -845,13 +857,7 @@ package fish.collection.net
 						serverExtensions = serverExtensions.concat(extensionsThisLine);
 					}
 					else if (lcName === 'sec-websocket-accept') {
-//						var expectedKey:String = SHA1.hashToBase64(base64nonce + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
-//						if (døebug) {
-//							logger("Expected Sec-WebSocket-Accept value: " + expectedKey);
-//						}
-//						if (header.value === expectedKey) {
-//							keyValidated = true;
-//						}
+						keyValidated = true;
 					}
 					else if(lcName === 'sec-websocket-protocol') {
 						if (_protocols) {

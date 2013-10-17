@@ -53,7 +53,7 @@ package fish.collection
 		public function request():void
 		{
 			log();
-			_client.send({id : "test"}, new Callback(onGet).onError(errorLogin));
+			_client.send({id : "test", data:""});
 		}
 		
 		//===========================================================
