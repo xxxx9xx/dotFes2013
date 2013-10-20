@@ -4,7 +4,6 @@ package
 	import flash.display.Shape;
 	import flash.display.StageDisplayState;
 	
-	import fish.collection.entry.mock.MockEntryDelegate;
 	import fish.collection.fish.mock.MockFishDelegate;
 
 	[SWF(width="900",height="700",frameRate="24",backgroundColor="#999999")]

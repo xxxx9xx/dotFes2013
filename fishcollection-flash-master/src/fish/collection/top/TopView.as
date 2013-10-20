@@ -3,12 +3,14 @@ package fish.collection.top
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	
+	import fish.collection.poi.PoiView;
+	
 	import pigglife.util.ButtonHelper;
 	import pigglife.view.RootStage;
 
 	/**
-	 * 
-	 * @author A12697
+	 *　トップ画面
+	 * @author bamba misaki
 	 */
 	public class TopView extends Sprite
 	{
@@ -45,10 +47,7 @@ package fish.collection.top
 		public function show():void
 		{
 			// ロゴ
-			var logo:Bitmap = new Bitmap(new Logo);
-			logo.x = int((RootStage.stageWidth - logo.width) *.5);
-			logo.y = int((RootStage.stageHeight - logo.height) *.5);
-			_container.addChild(logo);
+			createLogo();
 		}
 		
 		/**
@@ -68,11 +67,24 @@ package fish.collection.top
 			_buttonHelper = null;
 		}
 
+		//===========================================================
+		// PRIVATE METHODS
+		//===========================================================
 		private function onClick():void
 		{
-			clean();
-			_idelegate.showEntry();			
-			_idelegate.request();			
+			_idelegate.showEntry()
+			_idelegate.request();	
+		}
+		
+		/**
+		 * ロゴを表示 
+		 */
+		private function createLogo():void
+		{
+			var logo:Bitmap = new Bitmap(new Logo);
+			logo.x = int((RootStage.stageWidth - logo.width) *.5);
+			logo.y = int((RootStage.stageHeight - logo.height) *.5);
+			_container.addChild(logo);
 		}
 	}
 }

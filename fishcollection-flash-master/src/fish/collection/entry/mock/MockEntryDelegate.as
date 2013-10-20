@@ -18,7 +18,6 @@ package fish.collection.entry.mock
 		//=========================================================
 		// VARIABLES
 		//=========================================================
-		private var _main:ISimpleSocketModel;
 		private var _model:EntryModel;
 		private var _delegate:MainDelegate;
 		private var _container:ViewContainer;
@@ -26,11 +25,6 @@ package fish.collection.entry.mock
 		//=========================================================
 		// GETTER/SETTER
 		//=========================================================
-		public function set main(value:ISimpleSocketModel):void
-		{
-			_main = value;
-		}
-		
 		public function set delegate(delegate:MainDelegate):void
 		{
 			_delegate = delegate;

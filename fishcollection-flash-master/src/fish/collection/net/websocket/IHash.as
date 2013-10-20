@@ -6,7 +6,7 @@
  * 
  * See LICENSE.txt for full license information.
  */
-package fish.collection.net
+package fish.collection.net.websocket
 {
 	import flash.utils.ByteArray;
 

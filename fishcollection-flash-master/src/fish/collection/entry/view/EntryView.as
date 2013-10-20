@@ -41,11 +41,6 @@ package fish.collection.entry.view
 			_container = new Sprite();
 			addChild(_container);
 			
-			// ロゴ
-			var logo:Bitmap = new Bitmap(new Logo);
-			logo.x = 24; logo.y = 32;
-			_container.addChild(logo);
-			
 			_buttonHelper = new ButtonHelper(_container).click(onClick);
 		}
 

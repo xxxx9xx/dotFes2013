@@ -3,6 +3,7 @@ package fish.collection
 	import fish.collection.entry.EntryModel;
 	import fish.collection.game.GameModel;
 	import fish.collection.net.FishClient;
+	import fish.collection.poi.PoiView;
 	import fish.collection.top.TopModel;
 	
 	import pigglife.view.ViewContainer;
@@ -59,6 +60,9 @@ package fish.collection
 			showTop();
 		}
 		
+		/**
+		 * 接続開始 
+		 */
 		public function start():void
 		{
 			_client.open();
@@ -116,11 +120,6 @@ package fish.collection
 		public function request():void
 		{
 			_facade.request();
-		}
-		
-		public function showError(error:Error, block:Boolean = false):void
-		{
-			log(error);
 		}
 	}
 }

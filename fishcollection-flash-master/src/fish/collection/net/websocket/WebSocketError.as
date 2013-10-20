@@ -14,18 +14,13 @@
  *  limitations under the License.
  ***********************************************************************/
 
-package fish.collection.net
+package fish.collection.net.websocket
 {
-	import flash.events.ErrorEvent;
-	
-	public class WebSocketErrorEvent extends ErrorEvent
+	public class WebSocketError extends Error
 	{
-		public static const CONNECTION_FAIL:String = "connectionFail";
-		public static const ABNORMAL_CLOSE:String = "abnormalClose";
-		
-		public function WebSocketErrorEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false, text:String="")
+		public function WebSocketError(message:*="", id:*=0)
 		{
-			super(type, bubbles, cancelable, text);
+			super(message, id);
 		}
 	}
 }

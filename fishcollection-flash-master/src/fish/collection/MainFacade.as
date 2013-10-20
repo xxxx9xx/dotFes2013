@@ -1,12 +1,11 @@
 package fish.collection
 {
 	import fish.collection.net.FishClient;
-	
 	import pigglife.util.Callback;
 
 	/**
-	 * 
-	 * @author A12697
+	 * データ送受信
+	 * @author bamba misaki
 	 */
 	public class MainFacade
 	{
@@ -14,7 +13,6 @@ package fish.collection
 		// VARIABLES
 		//=========================================================
 		private var _client:FishClient;
-		private var _config:Configuration;
 		private var _model:MainModel;
 		
 		//=========================================================
@@ -23,11 +21,6 @@ package fish.collection
 		public function set client(value:FishClient):void 
 		{
 			_client = value; 
-		}
-		
-		public function set config(value:Configuration):void 
-		{
-			_config = value; 
 		}
 		
 		public function set model(value:MainModel):void 
@@ -53,20 +46,29 @@ package fish.collection
 		public function request():void
 		{
 			log();
-			_client.send({id : "test", data:""});
+			_client.send({id : "test", data : ""}, new Callback(onData));
 		}
 		
-		//===========================================================
-		// PRIVATE METHODS
-		//===========================================================
-		private function onGet(data:Object):void
+		/**
+		 * データ受信 
+		 * @param data
+		 */
+		public function onData(data:Object):void
 		{
-			log(data);
-		}
-		
-		private function errorLogin(err:Error):void
-		{
-			log(err);
+			switch(data.id)
+			{
+				case 'poi':
+				{
+					_model.showEntry();
+					break;
+				}
+					
+				default:
+				{
+					break;
+				}
+			}
+			log('onGetonGetonGetonGetonGetonGetonGetonGetonGetonGetonGetonGetonGet', data);
 		}
 	}
 }

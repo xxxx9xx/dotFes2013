@@ -1,7 +1,5 @@
-package fish.collection.net
+package fish.collection.net.websocket
 {
-	import flash.utils.ByteArray;
-
 	public interface WebSocketHandler
 	{
 		/**
@@ -18,11 +16,6 @@ package fish.collection.net
 		 * メッセージ受信時
 		 */
 		function onMessage(data:String):void;
-		
-		/**
-		 * バイナリデータ受信時
-		 */
-		function onData(frame:int, data:ByteArray):void;
 		
 		/**
 		 * 通信エラー発生時

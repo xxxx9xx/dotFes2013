@@ -14,7 +14,7 @@
  *  limitations under the License.
  ***********************************************************************/
 
-package fish.collection.net
+package fish.collection.net.websocket
 {
 	public class WebSocketConfig
 	{

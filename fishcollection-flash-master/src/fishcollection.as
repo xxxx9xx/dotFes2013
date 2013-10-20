@@ -1,16 +1,17 @@
 package
 {
+	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageDisplayState;
+	import flash.display.StageQuality;
+	import flash.display.StageScaleMode;
+	import flash.events.MouseEvent;
+	import flash.system.ApplicationDomain;
+	
 	import fish.collection.MainDelegate;
 	import fish.collection.MainFacade;
 	import fish.collection.MainModel;
 	import fish.collection.net.FishClient;
-	import fish.collection.net.SimpleSocketClient;
-	
-	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageQuality;
-	import flash.events.MouseEvent;
-	import flash.system.ApplicationDomain;
 	
 	import pigglife.ObjectContainer;
 	import pigglife.util.Tween;
@@ -19,7 +20,7 @@ package
 	import pigglife.view.SimpleViewContainer;
 	import pigglife.view.ViewContainer;
 	
-	[SWF(width="1920",height="1080",frameRate="24",backgroundColor="#999999")]
+	[SWF(width="1920",height="1080",frameRate="24",backgroundColor="#ffffff")]
 	public class fishcollection extends Sprite
 	{
 		protected var container:ObjectContainer;
@@ -32,8 +33,8 @@ package
 			RootStage.stage = stage;
 			stage.quality = StageQuality.HIGH;
 			stage.align = StageAlign.TOP_LEFT;
-			//stage.scaleMode = StageScaleMode.NO_SCALE;
-			//stage.displayState = StageDisplayState.FULL_SCREEN;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.displayState = StageDisplayState.FULL_SCREEN;
 			//stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE; 
 			// ログを表示
 			LogConfig.enabled = true;
@@ -44,7 +45,6 @@ package
 			container.register(MainDelegate);
 			container.register(MainFacade);
 			
-			container.register(SimpleSocketClient);
 			container.register(FishClient);
 			
 			container.register(ViewContainer,  new SimpleViewContainer(this));
@@ -62,6 +62,7 @@ package
 			var main:* = container.getInstance('fish.collection::MainModel');
 			if (main != null)
 			{
+				// 接続開始
 				main.start();
 			}
 		}

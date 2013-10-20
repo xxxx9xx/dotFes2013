@@ -1,14 +1,12 @@
 package fish.collection.top
 {
 	import fish.collection.MainDelegate;
-	import fish.collection.fish.FishView;
-	import fish.collection.fish.data.FishData;
 	
 	import pigglife.view.ViewContainer;
 
 	/**
-	 * 
-	 * @author A12697
+	 *　top画面
+	 * @author bamba misaki
 	 */
 	public class TopModel
 	{
@@ -39,6 +37,9 @@ package fish.collection.top
 			_container.addUI(_topView.view);
 		}
 		
+		/**
+		 * トップを表示 
+		 */
 		public function showTop():void
 		{
 			_topView.show();
@@ -50,6 +51,7 @@ package fish.collection.top
 		public function clean():void
 		{
 			_topView.clean();
+			_topView = null;
 		}
 	}
 }

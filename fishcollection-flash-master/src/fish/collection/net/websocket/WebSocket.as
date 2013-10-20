@@ -14,9 +14,8 @@
  *  limitations under the License.
  ***********************************************************************/
 
-package fish.collection.net
+package fish.collection.net.websocket
 {
-	import com.adobe.crypto.SHA1;
 	import com.adobe.net.URI;
 	import com.adobe.net.URIEncodingBitmap;
 	import com.hurlant.crypto.tls.TLSConfig;
@@ -308,6 +307,10 @@ package fish.collection.net
 			}
 		}
 		
+		/**
+		 * データ送信 
+		 * @param data
+		 */
 		public function sendUTF(data:String):void {
 			verifyConnectionForSend();
 			var frame:WebSocketFrame = new WebSocketFrame();
@@ -347,7 +350,7 @@ package fish.collection.net
 		
 		private function fragmentAndSend(frame:WebSocketFrame):void {
 			if (frame.opcode > 0x07) {
-				throw new fish.collection.net.WebSocketError("You cannot fragment control frames.");
+				throw new fish.collection.net.websocket.WebSocketError("You cannot fragment control frames.");
 			}
 			
 			var threshold:uint = config.fragmentationThreshold;
@@ -526,7 +529,8 @@ package fish.collection.net
 					}
 					break;
 				case WebSocketOpcode.TEXT_FRAME:
-					log();
+					// 受信
+					log("onData");
 					if (config.assembleFragments) {
 						if (frameQueue.length === 0) {
 							if (frame.fin) {

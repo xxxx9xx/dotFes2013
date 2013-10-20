@@ -7,7 +7,7 @@ package
 	import flash.utils.ByteArray;
 	
 	import fish.collection.net.FishClientWebSocket;
-	import fish.collection.net.WebSocketHandler;
+	import fish.collection.net.websocket.WebSocketHandler;
 
 	/**
 	 * websocket通信テスト
