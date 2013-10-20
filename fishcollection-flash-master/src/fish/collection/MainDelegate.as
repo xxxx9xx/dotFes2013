@@ -1,5 +1,9 @@
 package fish.collection
 {
+	/**
+	 * main delegate
+	 * @author A12697
+	 */
 	public class MainDelegate
 	{
 		//=========================================================
@@ -28,25 +32,30 @@ package fish.collection
 		{
 		}
 		
-		public function request():void
-		{
-			_model.request();
-		}
-		
-		/**
-		 * エントリーを表示 
-		 */
-		public function showEntry():void
-		{
-			_model.showEntry();
-		}
-		
 		/**
 		 * ゲームビューを表示
 		 */
 		public function showGame():void
 		{
 			_model.showGame();
+		}
+
+		/**
+		 * 金魚get成功時のデータ送信  
+		 * @param data
+		 */
+		public function sendFish(data:Object):void
+		{
+			_model.sendFish(data);
+		}
+		
+		/**
+		 * 金魚get失敗時のデータ送信   
+		 * @param data
+		 */
+		public function sendLife(data:Object):void
+		{
+			_model.sendLife(data);
 		}
 	}
 }

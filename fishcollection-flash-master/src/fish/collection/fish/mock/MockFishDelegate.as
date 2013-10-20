@@ -47,12 +47,6 @@ package fish.collection.fish.mock
 			_fishView.show();
 			_container.addUI(_fishView.view);
 			
-			// 仮ぽい
-			var poi:PoiView = new PoiView();
-			poi.initialize();
-			poi.show();
-			_container.addUI(poi.view)
-			
 			new PiggButton(12, FontNames.Sans).text('DEME').size(100, 30).position(0, 0).onClick(showDeme).appendTo(RootStage.stage);
 		}
 		

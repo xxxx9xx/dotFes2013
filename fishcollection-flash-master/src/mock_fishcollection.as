@@ -1,10 +1,13 @@
 package
 {
+	import fish.collection.fish.mock.MockFishDelegate;
+	import fish.collection.poi.mock.MockPoiDelegate;
+	
 	import flash.display.Graphics;
 	import flash.display.Shape;
 	import flash.display.StageDisplayState;
 	
-	import fish.collection.fish.mock.MockFishDelegate;
+	import pigglife.view.PiggTextField;
 
 	[SWF(width="900",height="700",frameRate="24",backgroundColor="#999999")]
 	public class mock_fishcollection extends fishcollection
@@ -29,7 +32,9 @@ package
 			// 各モジュールのモックを一旦ここで出し分け
 			//container.register(MockEntryDelegate);
 			// 金魚の見た目確認
-			container.register(MockFishDelegate);
+			//container.register(MockFishDelegate);
+			// ポイ
+			container.register(MockPoiDelegate);
 			super.initApp();
 		}
 	}

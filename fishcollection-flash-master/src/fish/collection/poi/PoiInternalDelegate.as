@@ -1,26 +1,26 @@
-package fish.collection.top
+package fish.collection.poi
 {
 	import fish.collection.MainDelegate;
 
-	public class TopInternalDelegate
+	public class PoiInternalDelegate
 	{
 		//=========================================================
 		// VARIABLES
 		//=========================================================
-		private var _model:TopModel;
+		private var _model:PoiModel;
 		private var _delegate:MainDelegate;
 		
 		//===========================================================
 		// PUBLIC METHODS
 		//===========================================================
-		public function TopInternalDelegate(model:TopModel, delegate:MainDelegate)
+		public function PoiInternalDelegate(model:PoiModel, delegate:MainDelegate)
 		{
 			_model = model;
 			_delegate = delegate;
 		}
 		
 		/**
-		 * clean 
+		 * ポイを削除 
 		 */
 		public function clean():void
 		{
@@ -28,11 +28,21 @@ package fish.collection.top
 		}
 		
 		/**
-		 * ゲーム画面表示 
+		 * 金魚get成功時のデータ送信 
+		 * @param data
 		 */
-		public function showGame():void
+		public function sendFish(data:Object):void
 		{
-			_delegate.showGame();
+			_delegate.sendFish(data);
+		}
+		
+		/**
+		 * 金魚get失敗時のデータ送信 
+		 * @param data
+		 */
+		public function sendLife(data:Object):void
+		{
+			_delegate.sendLife(data);
 		}
 	}
 }

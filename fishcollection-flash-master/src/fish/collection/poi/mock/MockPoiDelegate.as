@@ -1,33 +1,31 @@
-package fish.collection.entry.mock
+package fish.collection.poi.mock
 {
 	import fish.collection.MainDelegate;
-	import fish.collection.entry.EntryModel;
-	import fish.collection.net.ISimpleSocketModel;
+	import fish.collection.poi.PoiModel;
+	import fish.collection.poi.PoiView;
+	import fish.collection.poi.data.PoiData;
 	
-	import pigglife.font.FontNames;
-	import pigglife.view.RootStage;
 	import pigglife.view.ViewContainer;
-	import pigglife.view.button.PiggButton;
 
 	/**
-	 * エントリーのモック 
-	 * @author bamba misaki
+	 * 
+	 * @author A12697
 	 */
-	public class MockEntryDelegate
+	public class MockPoiDelegate
 	{
 		//=========================================================
 		// VARIABLES
 		//=========================================================
-		private var _model:EntryModel;
 		private var _delegate:MainDelegate;
 		private var _container:ViewContainer;
+		private var _poiModel:PoiModel;
 		
 		//=========================================================
 		// GETTER/SETTER
 		//=========================================================
-		public function set delegate(delegate:MainDelegate):void
+		public function set delegate(value:MainDelegate):void
 		{
-			_delegate = delegate;
+			_delegate = value;
 		}
 		
 		public function set container(value:ViewContainer):void
@@ -38,7 +36,7 @@ package fish.collection.entry.mock
 		//===========================================================
 		// PUBLIC METHODS
 		//===========================================================
-		public function MockEntryDelegate()
+		public function MockPoiDelegate()
 		{
 		}
 		
@@ -47,18 +45,28 @@ package fish.collection.entry.mock
 		 */
 		public function initialize():void
 		{
-			_model = new EntryModel();
-			_model.initialize(_delegate, _container);
-			
-			new PiggButton(12, FontNames.Sans).text('TEST').size(100, 30).position(0, 0).onClick(show).appendTo(RootStage.stage);
+			_poiModel = new PoiModel();
+			_poiModel.initialize(_delegate, _container);
+			_poiModel.showPoi(createPoiData());
+		}
+		
+		private function showDeme():void
+		{
 		}
 		
 		/**
-		 * 表示 
+		 * テストデータ 
+		 * @return 
 		 */
-		private function show():void
+		private function createPoiData():PoiData
 		{
-			_model.showEntry();
+			var obj:Object ={
+				t_id:"p1", 
+				name:"小栗旬"
+			};
+			var data:PoiData = new PoiData(obj);
+			
+			return data;
 		}
 	}
 }

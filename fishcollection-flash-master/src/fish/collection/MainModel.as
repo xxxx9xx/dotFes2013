@@ -1,13 +1,16 @@
 package fish.collection
 {
-	import fish.collection.entry.EntryModel;
 	import fish.collection.game.GameModel;
 	import fish.collection.net.FishClient;
-	import fish.collection.poi.PoiView;
+	import fish.collection.poi.PoiModel;
 	import fish.collection.top.TopModel;
 	
 	import pigglife.view.ViewContainer;
 
+	/**
+	 * main model 
+	 * @author A12697
+	 */
 	public class MainModel
 	{
 		//=========================================================
@@ -19,7 +22,7 @@ package fish.collection
 		private var _facade:MainFacade;
 		private var _container:ViewContainer;
 		private var _topModel:TopModel;
-		private var _entryModel:EntryModel;
+		private var _poiModel:PoiModel;
 		private var _gameModel:GameModel;
 		
 		//=========================================================
@@ -69,7 +72,7 @@ package fish.collection
 		}
 		
 		/**
-		 * トップを表示 
+		 * トップロゴを表示 
 		 */
 		public function showTop():void
 		{
@@ -81,27 +84,27 @@ package fish.collection
 			_topModel.showTop();
 		}
 		
-		public function cleanTop():void
+		/**
+		 * トップタイトル画像を表示 
+		 */
+		public function showTitle():void
 		{
-			
+			if (!_topModel)
+				return;
+			_topModel.showTitle();
 		}
 		
 		/**
-		 * エントリーを表示 
+		 * ポイを表示 
 		 */
-		public function showEntry():void
+		public function showPoi(data:Object):void
 		{
-			if (!_entryModel)
+			if (!_poiModel)
 			{
-				_entryModel = new EntryModel();
-				_entryModel.initialize(_delegate, _container);
+				_poiModel = new PoiModel();
+				_poiModel.initialize(_delegate, _container);
 			}
-			_entryModel.showEntry();
-		}
-		
-		public function cleanEntry():void
-		{
-			
+			_poiModel.showPoi(data);
 		}
 		
 		/**
@@ -117,9 +120,22 @@ package fish.collection
 			_gameModel.showGame();
 		}
 		
-		public function request():void
+		/**
+		 * 金魚get成功時のデータ送信 
+		 * @param data
+		 */
+		public function sendFish(data:Object):void
 		{
-			_facade.request();
+			_facade.sendFish(data);
+		}
+		
+		/**
+		 * 金魚get失敗時のデータ送信  
+		 * @param data
+		 */
+		public function sendLife(data:Object):void
+		{
+			_facade.sendLife(data);
 		}
 	}
 }

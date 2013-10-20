@@ -1,23 +1,23 @@
-package fish.collection.entry
+package fish.collection.poi
 {
 	import fish.collection.MainDelegate;
-	import fish.collection.entry.view.EntryView;
+	import fish.collection.poi.data.PoiData;
 	
 	import pigglife.view.ViewContainer;
 
-	public class EntryModel
+	public class PoiModel
 	{
 		//=========================================================
 		// VARIABLES
 		//=========================================================
-		private var _idelegate:EntryInternalDelegate;
+		private var _idelegate:PoiInternalDelegate;
 		private var _container:ViewContainer;
-		private var _entryView:EntryView;
+		private var _poiView:PoiView;
 		
 		//===========================================================
 		// PUBLIC METHODS
 		//===========================================================
-		public function EntryModel()
+		public function PoiModel()
 		{
 		}
 		
@@ -26,17 +26,21 @@ package fish.collection.entry
 		 */
 		public function initialize(delegate:MainDelegate, container:ViewContainer):void
 		{
-			_idelegate = new EntryInternalDelegate(this, delegate);
+			_idelegate = new PoiInternalDelegate(this, delegate);
 			_container = container;
 			
-			_entryView = new EntryView(_idelegate);
-			_entryView.initialize();
-			_container.addUI(_entryView.view);
+			_poiView = new PoiView(_idelegate);
+			_poiView.initialize();
+			_container.addUI(_poiView.view);
 		}
 		
-		public function showEntry():void
+		/**
+		 * ポイを表示 
+		 */
+		public function showPoi(data:Object):void
 		{
-			_entryView.show()
+			var poiData:PoiData = new PoiData(data);
+			_poiView.show(poiData)
 		}
 		
 		/**
@@ -44,7 +48,8 @@ package fish.collection.entry
 		 */
 		public function clean():void
 		{
-			
+			_poiView.clean();
+			_poiView = null;
 		}
 	}
 }

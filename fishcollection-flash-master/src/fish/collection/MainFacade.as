@@ -41,12 +41,21 @@ package fish.collection
 		}
 		
 		/**
-		 * 接続後のログイン処理
+		 * 金魚get成功時のデータ送信 
 		 */
-		public function request():void
+		public function sendFish(data:Object):void
 		{
 			log();
-			_client.send({id : "test", data : ""}, new Callback(onData));
+			_client.send(data, new Callback(onData));
+		}
+		
+		/**
+		 * 金魚get失敗時のデータ送信 
+		 */
+		public function sendLife(data:Object):void
+		{
+			log();
+			_client.send(data, new Callback(onData));
 		}
 		
 		/**
@@ -55,20 +64,28 @@ package fish.collection
 		 */
 		public function onData(data:Object):void
 		{
+			log("onData", data.id);
 			switch(data.id)
 			{
-				case 'poi':
+				case 'open':
 				{
-					_model.showEntry();
+					_model.showTitle();
 					break;
 				}
-					
+				case 'game.start':
+				{
+					_model.showPoi(data);
+					break;
+				}
+				case 'game.locate':
+				{
+					break;
+				}
 				default:
 				{
 					break;
 				}
 			}
-			log('onGetonGetonGetonGetonGetonGetonGetonGetonGetonGetonGetonGetonGet', data);
 		}
 	}
 }

@@ -1,9 +1,9 @@
 package fish.collection.top
 {
+	import fish.collection.poi.PoiView;
+	
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
-	
-	import fish.collection.poi.PoiView;
 	
 	import pigglife.util.ButtonHelper;
 	import pigglife.view.RootStage;
@@ -44,10 +44,22 @@ package fish.collection.top
 			_buttonHelper = new ButtonHelper(_container).click(onClick);
 		}
 		
+		/**
+		 * ロゴを表示 
+		 */
 		public function show():void
 		{
 			// ロゴ
 			createLogo();
+		}
+		
+		/**
+		 * タイトルを表示 
+		 */
+		public function showTitle():void
+		{
+			// タイトル表示
+			createTitle();
 		}
 		
 		/**
@@ -72,8 +84,8 @@ package fish.collection.top
 		//===========================================================
 		private function onClick():void
 		{
-			_idelegate.showEntry()
-			_idelegate.request();	
+			_idelegate.clean();
+			_idelegate.showGame()
 		}
 		
 		/**
@@ -85,6 +97,17 @@ package fish.collection.top
 			logo.x = int((RootStage.stageWidth - logo.width) *.5);
 			logo.y = int((RootStage.stageHeight - logo.height) *.5);
 			_container.addChild(logo);
+		}
+		
+		/**
+		 * スタンバイ画像を表示 
+		 */
+		private function createTitle():void
+		{
+			var title:Bitmap = new Bitmap(new Title);
+			title.x = int((RootStage.stageWidth - title.width) *.5);
+			title.y = int((RootStage.stageHeight - title.height) *.5);
+			_container.addChild(title);
 		}
 	}
 }

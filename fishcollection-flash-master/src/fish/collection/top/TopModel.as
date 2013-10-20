@@ -46,6 +46,14 @@ package fish.collection.top
 		}
 		
 		/**
+		 * サーバーとつながってる場合金魚を表示 
+		 */
+		public function showTitle():void
+		{
+			_topView.showTitle();
+		}
+		
+		/**
 		 * clean 
 		 */
 		public function clean():void
