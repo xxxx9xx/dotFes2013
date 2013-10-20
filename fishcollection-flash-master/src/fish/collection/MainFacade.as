@@ -27,12 +27,7 @@ package fish.collection
 		{ 
 			_model = value; 
 		}
-		
-		public function get name():String
-		{
-			return 'fish';
-		}
-		
+
 		//===========================================================
 		// PUBLIC METHODS
 		//===========================================================
@@ -79,6 +74,7 @@ package fish.collection
 				}
 				case 'game.locate':
 				{
+					_model.updatePoiPos(data);
 					break;
 				}
 				default:

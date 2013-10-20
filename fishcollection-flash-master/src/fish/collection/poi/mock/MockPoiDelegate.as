@@ -1,17 +1,19 @@
 package fish.collection.poi.mock
 {
+	import flash.display.Sprite;
+	import flash.events.Event;
+	
 	import fish.collection.MainDelegate;
 	import fish.collection.poi.PoiModel;
-	import fish.collection.poi.PoiView;
 	import fish.collection.poi.data.PoiData;
 	
 	import pigglife.view.ViewContainer;
 
 	/**
-	 * 
-	 * @author A12697
+	 * ポイのモック 
+	 * @author bamba misaki
 	 */
-	public class MockPoiDelegate
+	public class MockPoiDelegate extends Sprite
 	{
 		//=========================================================
 		// VARIABLES
@@ -48,10 +50,33 @@ package fish.collection.poi.mock
 			_poiModel = new PoiModel();
 			_poiModel.initialize(_delegate, _container);
 			_poiModel.showPoi(createPoiData());
-		}
-		
-		private function showDeme():void
-		{
+			
+			var stage:Sprite = new Sprite();
+			
+			addChild(stage);
+			
+			// ポイの位置データ
+			addEventListener(Event.ENTER_FRAME,function (e:Event):void
+			{
+				var obj:Object;
+				// スプライト上のマウスカーソルの位置を取得
+				var mouse_x:Number = stage.mouseX *30;
+				var mouse_y:Number = stage.mouseY *30;
+				
+				obj ={
+					t_id:"p1", 
+					locate_info:
+					{
+						ac:mouse_x,
+						acg:mouse_y,
+						rr:0,
+						doShake:false,
+						doScoop:false
+					}
+				};
+				
+				_poiModel.updatePoiPos(obj);
+			});
 		}
 		
 		/**

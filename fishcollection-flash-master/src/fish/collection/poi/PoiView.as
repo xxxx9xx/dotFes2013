@@ -1,8 +1,5 @@
 package fish.collection.poi
 {
-	import fish.collection.common.FontNames;
-	import fish.collection.poi.data.PoiData;
-	
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -13,7 +10,13 @@ package fish.collection.poi
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
 	
+	import fish.collection.configuration.FontNames;
+	import fish.collection.poi.configuration.PoiConfiguration;
+	import fish.collection.poi.data.LocateData;
+	import fish.collection.poi.data.PoiData;
+	
 	import pigglife.util.ButtonHelper;
+	import pigglife.util.Executor;
 
 	/**
 	 * ポイ 
@@ -28,10 +31,14 @@ package fish.collection.poi
 		private var _container:Sprite;
 		private var _data:PoiData;
 		private var _buttonHelper:ButtonHelper;
-		private var _score:Object;
+		private var _scoreData:Object;
+		private var _gotfishData:Object;
 		private var _poi:Sprite;
 		private var _userName:TextField;
 		private var _userLife:Sprite;
+		private var _life:int;
+		
+		private const EXECUTE_NAME:String = "poi";
 		
 		//=========================================================
 		// GETTER/SETTER
@@ -53,6 +60,12 @@ package fish.collection.poi
 		{
 			_container = new Sprite();
 			addChild(_container);
+			
+			// ポイ残数初期化
+			_life = PoiConfiguration.MAX_LIFE;
+			
+			// JSON読み込み
+			loadJson();
 		}
 		
 		/**
@@ -62,12 +75,6 @@ package fish.collection.poi
 		{
 			_data = data;
 			
-			// スコアJSON読み込み
-			var urlLoader:URLLoader = new URLLoader();
-			urlLoader.dataFormat = URLLoaderDataFormat.TEXT;
-			urlLoader.addEventListener(Event.COMPLETE, onLoadScore);
-			urlLoader.load(new URLRequest("scorelist.json"));
-			
 			// ポイ本体の表示
 			_poi = new Sprite();
 			_poi.addChild(createPoiBitmap());
@@ -76,25 +83,32 @@ package fish.collection.poi
 			// ユーザー名
 			createName();
 			
-			// ポイの残数
+			// 「残り」
 			createLife();
 			
-			// 仮　マウス位置取得
-			addEventListener(Event.ENTER_FRAME,function (e:Event):void
-			{
-				// スプライト上のマウスカーソルの位置を取得
-				var mouse_x:Number = _container.mouseX;
-				var mouse_y:Number = _container.mouseY;
-				
-				_poi.x = mouse_x;
-				_poi.y = mouse_y;
-			});
+			// ポイの残数
+			updateLife();
 			
 			_buttonHelper = new ButtonHelper(_container).click(onClick);
 		}
 		
+		/**
+		 * ポイを動かす 
+		 * @param data
+		 */
+		public function updatePoiPos(data:LocateData):void
+		{
+			//log(data);
+			_poi.x = data.ac;
+			_poi.y = data.acg;
+		}
+		
+		/**
+		 * clean 
+		 */
 		public function clean():void
 		{
+			Executor.cancelByName(EXECUTE_NAME);
 			removeAllChild(this);
 			if (_container)
 			{
@@ -112,32 +126,59 @@ package fish.collection.poi
 		//===========================================================
 		private function onClick():void
 		{
-			// スコアJSON読み込み
-			var urlLoader:URLLoader = new URLLoader();
-			urlLoader.dataFormat = URLLoaderDataFormat.TEXT;
-			urlLoader.addEventListener(Event.COMPLETE, onLoadSendfish);
-			urlLoader.load(new URLRequest("sendfish.json"));
+			// 成功時
+			_gotfishData.t_id = "p1";
+			_gotfishData.fish_info.size = "small";
+			_gotfishData.fish_info.score = _scoreData["type1"];
+			_idelegate.sendFish(_gotfishData);
+			
+			// 失敗時
+			//_life = (_life > 1) ? _life - 1 : 0;	
+			//_idelegate.sendLife({id:"game.life", t_id:"p1", life:_life});		
+			//updateLife();
+			
+			// ポイを一時的に消す
+			//hidePoi();
 		}
 		
+		/**
+		 * JSON読み込み 
+		 * @param event
+		 */
+		private function loadJson():void
+		{
+			// スコアJSON読み込み
+			var scoreLoader:URLLoader = new URLLoader();
+			scoreLoader.dataFormat = URLLoaderDataFormat.TEXT;
+			scoreLoader.addEventListener(Event.COMPLETE, onLoadScore);
+			scoreLoader.load(new URLRequest("scorelist.json"));
+			
+			// 成功時送信JSON読み込み
+			var sendfishLoader:URLLoader = new URLLoader();
+			sendfishLoader.dataFormat = URLLoaderDataFormat.TEXT;
+			sendfishLoader.addEventListener(Event.COMPLETE, onLoadSendfish);
+			sendfishLoader.load(new URLRequest("sendfish.json"));
+		}
+		
+		/**
+		 * スコアデータJSON読み込み完了 
+		 * @param event
+		 */
 		private function onLoadScore(event:Event):void
 		{
 			var json:String = URLLoader(event.currentTarget).data;
-			_score = JSON.parse(json);
-			trace(_score["type1"].normal, _score["type2"].normal, _score["type3"].normal, _score["type4"].normal);
+			_scoreData = JSON.parse(json);
+			trace(_scoreData["type1"].normal, _scoreData["type2"].normal, _scoreData["type3"].normal, _scoreData["type4"].normal);
 		}
 		
+		/**
+		 * 成功時送信データ読み込み完了 
+		 * @param event
+		 */
 		private function onLoadSendfish(event:Event):void
 		{
 			var json:String = URLLoader(event.currentTarget).data;
-			var data:Object = JSON.parse(json);
-			data.t_id = "p1";
-			data.fish_info.size = "small";
-			data.fish_info.score = _score["type1"];
-			
-			log(data.fish_info.score)
-			//送信
-			_idelegate.sendFish(data);
-			
+			_gotfishData = JSON.parse(json);
 		}
 		
 		/**
@@ -170,7 +211,7 @@ package fish.collection.poi
 			_userName.width = 200;
 			
 			_userName.x = int((_poi.width - _userName.width) *.5);
-			_userName.y = _poi.y - 40;
+			_userName.y = _poi.y - 60;
 			
 			_poi.addChild(_userName);
 		}
@@ -180,8 +221,6 @@ package fish.collection.poi
 		 */
 		private function createLife():void
 		{
-			_userLife = new Sprite();
-			
 			// TextFormat
 			var format:TextFormat = new TextFormat();
 			format.size = 20;
@@ -189,14 +228,49 @@ package fish.collection.poi
 			format.bold = true;
 			
 			// TextField
-			var name:TextField = new TextField();
-			name.defaultTextFormat = format;
-			name.text = "残り" + 3;
-			name.width = 200;
+			var rest:TextField = new TextField();
+			rest.defaultTextFormat = format;
+			rest.text = "残り";
+
+			rest.x = _poi.x + 40;
+			rest.y = _poi.y - 30;
+			_poi.addChild(rest);
 			
-			name.x = int((_poi.width - name.width) *.5);
-			name.y = _poi.y - 20;
-			_poi.addChild(name);
+			// ポイの残数表示位置
+			_userLife = new Sprite();
+			_userLife.x = rest.width;
+			_userLife.y = rest.y;
+		}
+		
+		/**
+		 * ポイの残数更新 
+		 */
+		private function updateLife():void
+		{
+			if (_userLife)
+				removeAllChild(_userLife);
+			
+			// ポイ残数
+			var lifes:Sprite = new Sprite();
+			for (var i:int = 0; i < _life; i++) 
+			{
+				var life:Bitmap = new Bitmap(new Life);
+				life.x = life.width*i;
+				lifes.addChild(life);
+			}
+			_userLife.addChild(lifes);
+			_poi.addChild(_userLife);
+		}
+		
+		private function hidePoi():void
+		{
+			_poi.visible = false;
+			Executor.executeAfterWithName(18, EXECUTE_NAME, showPoi);
+		}
+		
+		private function showPoi():void
+		{
+			_poi.visible = true;
 		}
 	}
 }

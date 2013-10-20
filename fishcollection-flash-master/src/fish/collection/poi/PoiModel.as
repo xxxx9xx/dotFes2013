@@ -1,6 +1,7 @@
 package fish.collection.poi
 {
 	import fish.collection.MainDelegate;
+	import fish.collection.poi.data.LocateData;
 	import fish.collection.poi.data.PoiData;
 	
 	import pigglife.view.ViewContainer;
@@ -41,6 +42,16 @@ package fish.collection.poi
 		{
 			var poiData:PoiData = new PoiData(data);
 			_poiView.show(poiData)
+		}
+		
+		/**
+		 * ポイを動かす 
+		 * @param data
+		 */
+		public function updatePoiPos(data:Object):void
+		{
+			var locateData:LocateData = new LocateData(data);
+			_poiView.updatePoiPos(locateData);
 		}
 		
 		/**

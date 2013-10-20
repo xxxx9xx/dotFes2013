@@ -1,13 +1,10 @@
 package
 {
-	import fish.collection.fish.mock.MockFishDelegate;
-	import fish.collection.poi.mock.MockPoiDelegate;
-	
 	import flash.display.Graphics;
 	import flash.display.Shape;
 	import flash.display.StageDisplayState;
 	
-	import pigglife.view.PiggTextField;
+	import fish.collection.poi.mock.MockPoiDelegate;
 
 	[SWF(width="900",height="700",frameRate="24",backgroundColor="#999999")]
 	public class mock_fishcollection extends fishcollection

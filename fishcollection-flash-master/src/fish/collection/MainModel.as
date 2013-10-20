@@ -99,12 +99,30 @@ package fish.collection
 		 */
 		public function showPoi(data:Object):void
 		{
+			// トップを消す
+			if (_topModel)
+			{
+				_topModel.clean();
+				_topModel = null;
+			}
+			
 			if (!_poiModel)
 			{
 				_poiModel = new PoiModel();
 				_poiModel.initialize(_delegate, _container);
 			}
 			_poiModel.showPoi(data);
+		}
+		
+		/**
+		 * ポイを動かす
+		 * @param data
+		 */
+		public function updatePoiPos(data:Object):void
+		{
+			if (!_poiModel)
+				return;
+			_poiModel.updatePoiPos(data);
 		}
 		
 		/**

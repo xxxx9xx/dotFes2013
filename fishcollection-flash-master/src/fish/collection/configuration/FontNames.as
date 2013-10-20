@@ -1,4 +1,4 @@
-package fish.collection.common
+package fish.collection.configuration
 {
 	public class FontNames
 	{
